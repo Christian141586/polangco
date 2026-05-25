@@ -1,0 +1,1392 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Polangco Fried Chicken | Crispy, Juicy, Legendary Fried Chicken</title>
+    
+    <!-- Google Fonts: Rubik for Headings, Inter for Body & UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rubik:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              crimson: '#C41E3A',
+              amber_gold: '#FFBF00',
+              offwhite: '#FAF9F6',
+              charcoal: '#1A1A1A',
+              darkcrimson: '#8B0000',
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              rubik: ['Rubik', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    
+    <!-- Custom Style Rules for High Visual Polish & Animations -->
+    <style>
+      /* Smooth transitions for interactive components */
+      .transition-all-300 {
+        transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      /* Card hover translateY & shadow effect */
+      .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px -10px rgba(196, 30, 58, 0.15);
+      }
+
+      /* Infinite Loop Marquee */
+      @keyframes marquee {
+        0% { transform: translateX(0%); }
+        100% { transform: translateX(-50%); }
+      }
+      .animate-marquee {
+        display: flex;
+        width: max-content;
+        animation: marquee 25s linear infinite;
+      }
+      .marquee-container:hover .animate-marquee {
+        animation-play-state: paused;
+      }
+
+      /* Sizzling Pressure-Fryer Oil Shimmer Effect */
+      @keyframes sizzleShimmer {
+        0% {
+          background-position: 0% 50%, 0% 0%;
+          filter: brightness(0.9) saturate(1.1);
+        }
+        50% {
+          background-position: 100% 50%, 30% 70%;
+          filter: brightness(1.1) saturate(1.4);
+        }
+        100% {
+          background-position: 0% 50%, 0% 0%;
+          filter: brightness(0.9) saturate(1.1);
+        }
+      }
+      .sizzle-bg {
+        background: radial-gradient(circle at 60% 45%, rgba(255, 191, 0, 0.3) 0%, rgba(196, 30, 58, 0.1) 45%, transparent 70%),
+                    linear-gradient(135deg, #2b0303 0%, #120101 45%, #4a0202 70%, #C41E3A 100%);
+        background-size: 200% 200%, 200% 200%;
+        animation: sizzleShimmer 14s ease-in-out infinite;
+      }
+
+      /* Bubble generator simulation elements */
+      .bubble {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 191, 0, 0.2);
+        animation: floatUp 8s infinite linear;
+        pointer-events: none;
+      }
+      @keyframes floatUp {
+        0% {
+          transform: translateY(110vh) translateX(0) scale(0.5);
+          opacity: 0;
+        }
+        50% {
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(-10vh) translateX(30px) scale(1.1);
+          opacity: 0;
+        }
+      }
+
+      /* Soft overlay styling to ensure touch-friendly button active states on mobile */
+      button:active {
+        transform: scale(0.97);
+      }
+    </style>
+  </head>
+  <body class="bg-offwhite text-charcoal font-sans antialiased selection:bg-crimson selection:text-white overflow-x-hidden">
+
+    <!-- 1. NAVIGATION BAR -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all-300 py-4 px-4 sm:px-6 md:px-8 flex items-center justify-between text-white bg-transparent">
+      <!-- Container-Fluid alignment -->
+      <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+        <!-- Logo -->
+        <a href="#hero" class="flex items-center space-x-2 group focus:outline-none" id="nav-logo">
+          <span class="text-2xl sm:text-3xl font-rubik font-black tracking-tight text-white group-hover:text-amber_gold transition-all-300">
+            Polangco <span class="text-amber_gold group-hover:text-white transition-all-300">FC</span>
+          </span>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <div class="hidden md:flex items-center space-x-8 font-medium">
+          <a href="#menu" class="text-white hover:text-amber_gold transition-colors duration-200 focus:outline-none hover:underline underline-offset-4 decoration-2">Menu</a>
+          <a href="#locations" class="text-white hover:text-amber_gold transition-colors duration-200 focus:outline-none hover:underline underline-offset-4 decoration-2">Locations</a>
+          <a href="#about" class="text-white hover:text-amber_gold transition-colors duration-200 focus:outline-none hover:underline underline-offset-4 decoration-2">About</a>
+          <button onclick="openFranchiseModal()" class="text-white hover:text-amber_gold transition-colors duration-200 focus:outline-none hover:underline underline-offset-4 decoration-2 text-left">Franchise</button>
+        </div>
+
+        <!-- Desktop Action Buttons -->
+        <div class="hidden md:flex items-center space-x-4">
+          <!-- Interactive Cart Toggle -->
+          <button onclick="toggleCartDrawer()" class="relative p-2 text-white hover:text-amber_gold transition-colors focus:outline-none" id="cart-desktop-btn" aria-label="Open Shopping Cart">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            <span id="cart-badge" class="absolute -top-1 -right-1 bg-amber_gold text-charcoal font-rubik font-bold text-xs w-5 h-5 rounded-full flex items-center justify-center opacity-0 scale-75 transition-all duration-300">0</span>
+          </button>
+
+          <!-- Order Now CTA Button -->
+          <a href="#menu" class="bg-amber_gold hover:bg-white text-charcoal hover:text-crimson font-rubik font-bold px-6 py-2.5 rounded-full transition-all-300 shadow-lg shadow-black/20 hover:shadow-amber_gold/20 transform hover:scale-105 inline-block text-center focus:outline-none focus:ring-2 focus:ring-amber_gold">
+            Order Now 🍗
+          </a>
+        </div>
+
+        <!-- Mobile Header Controls (Hamburger & Mobile Cart Toggle) -->
+        <div class="flex items-center space-x-3 md:hidden">
+          <!-- Mobile Cart Toggle -->
+          <button onclick="toggleCartDrawer()" class="relative p-2.5 text-white hover:text-amber_gold transition-colors focus:outline-none" id="cart-mobile-btn" aria-label="Open Shopping Cart">
+            <svg class="w-6.5 h-6.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            <span id="cart-badge-mobile" class="absolute top-0.5 right-0.5 bg-amber_gold text-charcoal font-rubik font-bold text-[10px] w-4.5 h-4.5 rounded-full flex items-center justify-center opacity-0 scale-75 transition-all duration-300">0</span>
+          </button>
+
+          <!-- Hamburger Button -->
+          <button id="hamburger-btn" class="p-2 text-white hover:text-amber_gold transition-colors focus:outline-none focus:ring-2 focus:ring-amber_gold rounded-lg" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
+            <svg id="hamburger-icon" class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <svg id="close-icon" class="w-7 h-7 hidden" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Slide-Down Navigation Drawer -->
+    <div id="mobile-drawer" class="fixed top-0 left-0 w-full h-screen z-40 bg-charcoal/95 backdrop-blur-md transform -translate-y-full transition-transform duration-300 ease-out md:hidden flex flex-col pt-24 px-6 pb-8">
+      <div class="flex flex-col space-y-6 text-xl font-rubik font-bold text-white tracking-wide text-center">
+        <a href="#menu" onclick="toggleMobileMenu()" class="py-3 px-4 hover:bg-crimson/30 hover:text-amber_gold rounded-xl transition duration-200">Menu</a>
+        <a href="#locations" onclick="toggleMobileMenu()" class="py-3 px-4 hover:bg-crimson/30 hover:text-amber_gold rounded-xl transition duration-200">Locations</a>
+        <a href="#about" onclick="toggleMobileMenu()" class="py-3 px-4 hover:bg-crimson/30 hover:text-amber_gold rounded-xl transition duration-200">About Us</a>
+        <button onclick="toggleMobileMenu(); openFranchiseModal();" class="py-3 px-4 hover:bg-crimson/30 hover:text-amber_gold rounded-xl transition duration-200 text-center w-full">Franchise Inquiry</button>
+      </div>
+      <div class="mt-auto space-y-4">
+        <a href="#menu" onclick="toggleMobileMenu()" class="block w-full text-center bg-amber_gold hover:bg-white text-charcoal font-rubik font-bold py-3.5 rounded-full transition-all duration-200 shadow-lg text-lg">
+          Order Online Now
+        </a>
+        <p class="text-gray-400 text-center text-xs tracking-wider">
+          📍 Servicing Tagum & Davao Regional Families since 2019
+        </p>
+      </div>
+    </div>
+
+
+    <!-- 2. HERO SECTION -->
+    <header id="hero" class="relative w-full h-[100vh] min-h-[600px] flex items-center justify-center overflow-hidden z-10 sizzle-bg">
+      <!-- Animated oil bubbling elements overlay -->
+      <div class="absolute inset-0 z-0 opacity-40 pointer-events-none" id="bubbles-container"></div>
+      
+      <!-- Video simulation overlay gradient -->
+      <div class="absolute inset-0 bg-black/60 z-10"></div>
+      
+      <!-- Hero Content Container -->
+      <div class="relative z-20 max-w-4xl mx-auto text-center px-4 md:px-8 mt-12 flex flex-col items-center">
+        <!-- Badge -->
+        <span class="inline-flex items-center bg-crimson/90 text-white font-rubik text-xs sm:text-sm font-bold tracking-[0.2em] uppercase px-4 py-1.5 rounded-full border border-white/10 shadow-lg mb-6 animate-pulse">
+          ⚡ NOW DELIVERING · TAGUM & DAVAO 🍕
+        </span>
+        
+        <!-- H1 Headline -->
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-rubik font-black text-white leading-tight tracking-tight drop-shadow-md">
+          The <span class="bg-clip-text text-transparent bg-gradient-to-r from-amber_gold to-orange-400">Crispiest</span>, <span class="bg-clip-text text-transparent bg-gradient-to-r from-amber_gold to-orange-400">Juiciest</span> <br class="hidden sm:inline">Fried Chicken. Period.
+        </h1>
+        
+        <!-- Subheadline -->
+        <p class="mt-6 text-base sm:text-lg md:text-xl lg:text-2xl text-offwhite/90 font-light max-w-2xl tracking-wide leading-relaxed drop-shadow-sm">
+          Hand-battered. Pressure-fried. Seasoned to perfection with our legendary 11-spice secret blend, delivered sizzle-hot to your doorstep.
+        </p>
+        
+        <!-- Call to Action Buttons -->
+        <div class="mt-8 flex flex-col sm:flex-row gap-4 w-full sm:w-auto items-center justify-center">
+          <a href="#menu" class="w-full sm:w-auto bg-amber_gold hover:bg-white text-charcoal hover:text-crimson font-rubik font-bold text-base px-8 py-4 rounded-full transition-all duration-300 shadow-xl shadow-amber_gold/15 hover:shadow-white/10 hover:shadow-2xl text-center transform hover:scale-105 active:scale-95">
+            Order Delivery 🚀
+          </a>
+          <a href="#locations" class="w-full sm:w-auto bg-transparent hover:bg-white/10 text-white border-2 border-white/80 hover:border-white font-rubik font-bold text-base px-8 py-3.5 rounded-full transition-all duration-300 text-center transform hover:scale-105 active:scale-95">
+            Order Pickup 🛍️
+          </a>
+        </div>
+        
+        <!-- Trust badge indicator -->
+        <div class="mt-10 sm:mt-12 flex flex-col items-center">
+          <p class="text-amber_gold text-lg sm:text-xl font-bold tracking-wide">
+            ★★★★★
+          </p>
+          <p class="mt-1 text-xs sm:text-sm text-offwhite/70 tracking-wider font-medium">
+            Loved by <span class="text-white font-semibold underline decoration-amber_gold decoration-2">10,000+ families</span> across Davao Region
+          </p>
+        </div>
+      </div>
+      
+      <!-- Anchor scroll down helper icon -->
+      <a href="#social-strip" class="absolute bottom-6 left-1/2 -translate-x-1/2 z-25 text-white/50 hover:text-amber_gold transition-colors animate-bounce focus:outline-none" aria-label="Scroll Down">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+      </a>
+    </header>
+
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section id="social-strip" class="relative z-30 bg-crimson w-full py-4.5 border-y-4 border-amber_gold overflow-hidden">
+      <div id="marquee-container" class="marquee-container flex items-center w-full select-none">
+        
+        <!-- Repeating ticker blocks for seamless looping -->
+        <div class="animate-marquee flex whitespace-nowrap text-white font-rubik font-bold md:text-lg tracking-widest leading-none">
+          <span class="mx-6 sm:mx-10 flex items-center gap-2">🏆 Voted Best Local Chicken</span>
+          <span class="mx-6 sm:mx-10 text-amber_gold">•</span>
+          <span class="mx-6 sm:mx-10 flex items-center gap-2">10,000+ Happy Foodies</span>
+          <span class="mx-6 sm:mx-10 text-amber_gold">•</span>
+          <span class="mx-6 sm:mx-10 flex items-center gap-2">⚡ 30-Minute Delivery</span>
+          <span class="mx-6 sm:mx-10 text-amber_gold">•</span>
+          <span class="mx-6 sm:mx-10 flex items-center gap-2">✅ Fresh, Never Frozen</span>
+          <span class="mx-6 sm:mx-10 text-amber_gold">•</span>
+          <span class="mx-6 sm:mx-10 flex items-center gap-2">📍 Now in Tagum & Davao</span>
+          <span class="mx-6 sm:mx-10 text-amber_gold">•</span>
+          
+          <!-- Loop duplicate items to avoid text skip -->
+          <span class="mx-6 sm:mx-10 flex items-center gap-2">🏆 Voted Best Local Chicken</span>
+          <span class="mx-6 sm:mx-10 text-amber_gold">•</span>
+          <span class="mx-6 sm:mx-10 flex items-center gap-2">10,000+ Happy Foodies</span>
+          <span class="mx-6 sm:mx-10 text-amber_gold">•</span>
+          <span class="mx-6 sm:mx-10 flex items-center gap-2">⚡ 30-Minute Delivery</span>
+          <span class="mx-6 sm:mx-10 text-amber_gold">•</span>
+          <span class="mx-6 sm:mx-10 flex items-center gap-2">✅ Fresh, Never Frozen</span>
+          <span class="mx-6 sm:mx-10 text-amber_gold">•</span>
+          <span class="mx-6 sm:mx-10 flex items-center gap-2">📍 Now in Tagum & Davao</span>
+          <span class="mx-6 sm:mx-10 text-amber_gold">•</span>
+        </div>
+        
+      </div>
+    </section>
+
+
+    <!-- 4. HOW IT WORKS SECTION -->
+    <section id="how-it-works" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-offwhite">
+      <div class="max-w-7xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="text-crimson font-rubik font-bold tracking-wider uppercase text-xs sm:text-sm">Quick & Sizzling Hot</span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-rubik font-black text-charcoal mt-2 tracking-tight">
+            Order in 3 Simple Steps
+          </h2>
+          <p class="text-gray-500 mt-4 leading-relaxed">
+            Get your crispy craving sorted out. We've streamlined our ordering process to get delicious fried chicken into your hands while it is still popping hot!
+          </p>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+          
+          <!-- Step 1 Card -->
+          <div class="bg-white rounded-3xl p-8 border border-gray-100 transition-all-300 card-hover relative overflow-hidden group">
+            <span class="absolute right-6 top-4 font-rubik font-black text-6xl text-amber_gold/15 select-none leading-none group-hover:scale-110 group-hover:text-amber_gold/20 transition-all-300">01</span>
+            <!-- Icon container -->
+            <div class="w-14 h-14 rounded-2xl bg-amber_gold/10 text-crimson flex items-center justify-center font-rubik font-bold text-2xl mb-6 shadow-sm">
+              <svg class="w-7 h-7 text-crimson" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-rubik font-bold text-charcoal mb-3">Pick Your Branch</h3>
+            <p class="text-gray-500 leading-relaxed text-sm sm:text-base">
+              Choose your nearest Polangco location in Tagum or Davao for quick delivery rates or rapid local pickup.
+            </p>
+          </div>
+
+          <!-- Step 2 Card -->
+          <div class="bg-white rounded-3xl p-8 border border-gray-100 transition-all-300 card-hover relative overflow-hidden group">
+            <span class="absolute right-6 top-4 font-rubik font-black text-6xl text-amber_gold/15 select-none leading-none group-hover:scale-110 group-hover:text-amber_gold/20 transition-all-300">02</span>
+            <!-- Icon container -->
+            <div class="w-14 h-14 rounded-2xl bg-amber_gold/10 text-crimson flex items-center justify-center font-rubik font-bold text-2xl mb-6 shadow-sm">
+              <svg class="w-7 h-7 text-crimson" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-rubik font-bold text-charcoal mb-3">Build Your Feast</h3>
+            <p class="text-gray-500 leading-relaxed text-sm sm:text-base">
+              Customize your feast from our full crispy menu. Add family bucket meals, hot wings, sides, and legendary velvety gravy.
+            </p>
+          </div>
+
+          <!-- Step 3 Card -->
+          <div class="bg-white rounded-3xl p-8 border border-gray-100 transition-all-300 card-hover relative overflow-hidden group">
+            <span class="absolute right-6 top-4 font-rubik font-black text-6xl text-amber_gold/15 select-none leading-none group-hover:scale-110 group-hover:text-amber_gold/20 transition-all-300">03</span>
+            <!-- Icon container -->
+            <div class="w-14 h-14 rounded-2xl bg-amber_gold/10 text-crimson flex items-center justify-center font-rubik font-bold text-2xl mb-6 shadow-sm">
+              <svg class="w-7 h-7 text-crimson" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-rubik font-bold text-charcoal mb-3">Fast Delivery</h3>
+            <p class="text-gray-500 leading-relaxed text-sm sm:text-base">
+              We pack with thermal wraps and deliver hot and crispy to your desk, couch, or doorstep in 30 minutes or less!
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ABOUT US STORY SECTION -->
+    <section id="about" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white border-y border-gray-100">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <!-- Image/Visual Representation of Hand-Battered Process -->
+          <div class="lg:col-span-5 relative w-full aspect-square sm:aspect-[4/3] lg:aspect-square rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-tr from-crimson to-amber_gold group p-2">
+            <div class="absolute inset-0 bg-black/40 z-10 transition-opacity duration-300 group-hover:bg-black/30"></div>
+            <!-- Beautiful background layout pattern -->
+            <div class="absolute inset-0 z-0 flex items-center justify-center text-8xl md:text-9xl select-none filter drop-shadow-lg scale-110 group-hover:scale-125 transition-transform duration-700 ease-out">
+              🍗💥🥣
+            </div>
+            <div class="relative z-20 h-full w-full flex flex-col justify-end p-8 text-white">
+              <span class="text-amber_gold font-rubik tracking-widest font-black uppercase text-xs md:text-sm">OUR GOLDEN RULE</span>
+              <h3 class="text-xl md:text-3xl font-rubik font-extrabold tracking-tight mt-1 leading-tight">Freshly Hand-Battered In Small Batches</h3>
+              <p class="text-offwhite/90 text-xs md:text-sm mt-2 font-light">We never rush, we never pre-freeze, we never slide quality. Polangco standards require fresh chicken parts daily, battered right before frying.</p>
+            </div>
+          </div>
+
+          <!-- Story Text Block -->
+          <div class="lg:col-span-7 flex flex-col justify-center">
+            <span class="text-crimson font-rubik font-bold tracking-wider uppercase text-xs sm:text-sm">Our Sizzling Story since 2019</span>
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-rubik font-black text-charcoal mt-2 tracking-tight leading-none">
+              Davao's Pride in Every Juicy Bite
+            </h2>
+            <p class="text-gray-600 mt-6 leading-relaxed">
+              Polangco Fried Chicken was founded with a singular, fierce obsession: building a quick-service brand that honors the deep, comforting art of the perfect fried chicken. While others centralized kitchens and cut costs with mechanical processing, we chose the harder route.
+            </p>
+            <p class="text-gray-600 mt-4 leading-relaxed">
+              We spent over two years testing spices in our kitchen in Tagum, crafting a signature <strong class="text-crimson">11-spice marinade</strong> that penetrates deep past the bone and designing specialized heavy pressure fryers. When chicken is fried under precise pressure, moisture can’t escape. It yields that legendary Polangco signature: <em class="not-italic text-charcoal font-medium underline decoration-amber_gold decoration-2">thin, crackling-crisp skin on the outside holding in rushing hot, savory meat juices inside.</em>
+            </p>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 mt-8 pt-8 border-t border-gray-100">
+              <div>
+                <span class="block text-3xl sm:text-4xl font-rubik font-black text-crimson">11</span>
+                <span class="text-gray-500 text-xs sm:text-sm tracking-wide mt-1 block">Secret Herbs & Spices</span>
+              </div>
+              <div>
+                <span class="block text-3xl sm:text-4xl font-rubik font-black text-crimson">100%</span>
+                <span class="text-gray-500 text-xs sm:text-sm tracking-wide mt-1 block">Fresh, Local Poultry</span>
+              </div>
+              <div class="col-span-2 sm:col-span-1">
+                <span class="block text-3xl sm:text-4xl font-rubik font-black text-crimson">10K+</span>
+                <span class="text-gray-500 text-xs sm:text-sm tracking-wide mt-1 block">Satisfied Families</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 5. BEST SELLERS SECTION ("Fan Favorites") -->
+    <section id="menu" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-offwhite">
+      <div class="max-w-7xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="text-crimson font-rubik font-bold tracking-wider uppercase text-xs sm:text-sm">APPETITE ALERT</span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-rubik font-black text-charcoal mt-2 tracking-tight">
+            Fan Favorites
+          </h2>
+          <p class="text-gray-500 mt-4 leading-relaxed">
+            Crafted for legendary performance. Each menu masterwork is served fresh and piping hot with our signature velvety chicken gravy.
+          </p>
+        </div>
+
+        <!-- Menu Grid: 2x2 Mobile, 4x1 Desktop -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          
+          <!-- Card 1: 8pc Signature Bucket -->
+          <div class="bg-white rounded-3xl overflow-hidden border border-gray-100 transition-all-300 card-hover flex flex-col justify-between" id="menu-card-1">
+            <div class="relative">
+              <!-- Food block with emoji -->
+              <div class="aspect-[4/3] w-full bg-gradient-to-tr from-amber-500 to-crimson flex items-center justify-center relative group overflow-hidden">
+                <span class="text-[64px] filter drop-shadow-md transform group-hover:scale-125 group-hover:rotate-6 transition-transform duration-300">🍗</span>
+                <div class="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-all duration-300"></div>
+              </div>
+              <!-- Badge -->
+              <span class="absolute top-4 left-4 bg-crimson text-white font-rubik text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-md">
+                BESTSELLER
+              </span>
+            </div>
+            
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl sm:text-2xl font-rubik font-bold text-charcoal">Signature 8-Piece Bucket</h3>
+                <p class="text-gray-500 text-sm mt-3 leading-relaxed mb-6">
+                  Hand-battered in our secret 11-spice blend, pressure-fried golden, served with legendary velvety gravy. Perfect for 3-4 hungry foodies.
+                </p>
+              </div>
+              <div>
+                <div class="flex items-center justify-between mb-4">
+                  <span class="text-2xl font-rubik font-black text-crimson">₱489</span>
+                  <span class="text-xs text-gray-400 font-medium tracking-wide">Serves 3-4</span>
+                </div>
+                <!-- Button -->
+                <button onclick="addToCart('Signature 8-Piece Bucket', 489, '🍗')" class="w-full bg-crimson hover:bg-black text-white font-rubik font-bold py-3 px-4 rounded-xl transition-colors duration-200 shadow-md flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-crimson">
+                  Add to Cart 🛒
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Crispy Chicken Sandwich -->
+          <div class="bg-white rounded-3xl overflow-hidden border border-gray-100 transition-all-300 card-hover flex flex-col justify-between" id="menu-card-2">
+            <div class="relative">
+              <!-- Food block with emoji -->
+              <div class="aspect-[4/3] w-full bg-gradient-to-tr from-orange-400 to-amber-600 flex items-center justify-center relative group overflow-hidden">
+                <span class="text-[64px] filter drop-shadow-md transform group-hover:scale-125 group-hover:rotate-6 transition-transform duration-300">🍔</span>
+                <div class="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-all duration-300"></div>
+              </div>
+              <!-- Badge -->
+              <span class="absolute top-4 left-4 bg-amber_gold text-charcoal font-rubik text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-md">
+                FAN FAVORITE
+              </span>
+            </div>
+            
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl sm:text-2xl font-rubik font-bold text-charcoal">Crispy Chicken Sandwich</h3>
+                <p class="text-gray-500 text-sm mt-3 leading-relaxed mb-6">
+                  Double-stacked fillet, crispy signature coating, house brioche toast, shredded cabbage slaw, and our drippy homemade secret sauce.
+                </p>
+              </div>
+              <div>
+                <div class="flex items-center justify-between mb-4">
+                  <span class="text-2xl font-rubik font-black text-crimson">₱189</span>
+                  <span class="text-xs text-gray-400 font-medium tracking-wide">Incredibly Juicy</span>
+                </div>
+                <!-- Button -->
+                <button onclick="addToCart('Crispy Chicken Sandwich', 189, '🍔')" class="w-full bg-crimson hover:bg-black text-white font-rubik font-bold py-3 px-4 rounded-xl transition-colors duration-200 shadow-md flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-crimson">
+                  Add to Cart 🛒
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Family Feast Bucket (16pc) -->
+          <div class="bg-white rounded-3xl overflow-hidden border border-gray-100 transition-all-300 card-hover flex flex-col justify-between" id="menu-card-3">
+            <div class="relative">
+              <!-- Food block with emoji -->
+              <div class="aspect-[4/3] w-full bg-gradient-to-tr from-yellow-500 to-red-700 flex items-center justify-center relative group overflow-hidden">
+                <span class="text-[64px] filter drop-shadow-md transform group-hover:scale-125 group-hover:rotate-6 transition-transform duration-300">🧺</span>
+                <div class="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-all duration-300"></div>
+              </div>
+              <!-- Badge -->
+              <span class="absolute top-4 left-4 bg-green-600 text-white font-rubik text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-md">
+                BEST VALUE
+              </span>
+            </div>
+            
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl sm:text-2xl font-rubik font-bold text-charcoal">Family Feast Bucket (16pc)</h3>
+                <p class="text-gray-500 text-sm mt-3 leading-relaxed mb-6">
+                  Feed the whole crew. 16 pieces of crispy golden perfection with 4 large rice bowls, 4 sides, and 2 extra large gravy bowls.
+                </p>
+              </div>
+              <div>
+                <div class="flex items-center justify-between mb-4">
+                  <span class="text-2xl font-rubik font-black text-crimson">₱899</span>
+                  <span class="text-xs text-gray-400 font-medium tracking-wide">Feeds 6-8</span>
+                </div>
+                <!-- Button -->
+                <button onclick="addToCart('Family Feast Bucket (16pc)', 899, '🧺')" class="w-full bg-crimson hover:bg-black text-white font-rubik font-bold py-3 px-4 rounded-xl transition-colors duration-200 shadow-md flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-crimson">
+                  Add to Cart 🛒
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Spicy Firecracker Wings -->
+          <div class="bg-white rounded-3xl overflow-hidden border border-gray-100 transition-all-300 card-hover flex flex-col justify-between" id="menu-card-4">
+            <div class="relative">
+              <!-- Food block with emoji -->
+              <div class="aspect-[4/3] w-full bg-gradient-to-tr from-red-600 to-rose-950 flex items-center justify-center relative group overflow-hidden">
+                <span class="text-[64px] filter drop-shadow-md transform group-hover:scale-125 group-hover:rotate-6 transition-transform duration-300">🌶️🍗</span>
+                <div class="absolute inset-0 bg-black/15 group-hover:bg-transparent transition-all duration-300"></div>
+              </div>
+              <!-- Badge -->
+              <span class="absolute top-4 left-4 bg-orange-600 text-white font-rubik text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-md">
+                🔥 SPICY
+              </span>
+            </div>
+            
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl sm:text-2xl font-rubik font-bold text-charcoal">Spicy Firecracker Wings (10pc)</h3>
+                <p class="text-gray-500 text-sm mt-3 leading-relaxed mb-6">
+                  Our hottest wings yet. Ultra-crispy double wings dipped in fiery glazed hot marinade, cooled down with an organic blue cheese dip.
+                </p>
+              </div>
+              <div>
+                <div class="flex items-center justify-between mb-4">
+                  <span class="text-2xl font-rubik font-black text-crimson">₱299</span>
+                  <span class="text-xs text-gray-400 font-medium tracking-wide">Spicy Kick</span>
+                </div>
+                <!-- Button -->
+                <button onclick="addToCart('Spicy Firecracker Wings (10pc)', 299, '🌶️')" class="w-full bg-crimson hover:bg-black text-white font-rubik font-bold py-3 px-4 rounded-xl transition-colors duration-200 shadow-md flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-crimson">
+                  Add to Cart 🛒
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 6. UPSELL BANNER -->
+    <section id="upsell-banner" class="bg-charcoal text-white py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden z-10 border-y-4 border-amber_gold">
+      <!-- Background subtle art circles -->
+      <div class="absolute -top-12 -left-12 w-64 h-64 rounded-full bg-crimson/10 pointer-events-none"></div>
+      <div class="absolute -bottom-12 -right-12 w-80 h-80 rounded-full bg-amber_gold/5 pointer-events-none"></div>
+      
+      <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-20 text-center md:text-left">
+        <div>
+          <span class="text-amber_gold font-rubik font-bold tracking-wider text-xs sm:text-sm uppercase block mb-2">💰 INCREDIBLE BUNDLED VALUE 💰</span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-rubik font-black tracking-tight leading-tight">
+            Feeding the Whole Family?
+          </h2>
+          <p class="text-gray-400 mt-3 text-base sm:text-lg lg:text-xl max-w-xl font-light">
+            Upgrade to our <strong class="text-amber_gold font-medium">16-Piece Family Feast</strong> today and <span class="text-white font-semibold underline decoration-crimson decoration-2">save ₱150</span> vs buying individual chicken configurations.
+          </p>
+        </div>
+        
+        <div class="w-full md:w-auto shrink-0 flex flex-col items-center">
+          <button onclick="applyUpsell()" class="w-full md:w-auto bg-amber_gold hover:bg-white text-charcoal hover:text-crimson font-rubik font-black text-base sm:text-lg px-8 py-4.5 rounded-full transition-all duration-300 shadow-xl shadow-amber_gold/10 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-amber_gold">
+            Upgrade My Order →
+          </button>
+          <span class="text-xs text-gray-500 mt-2 tracking-widest uppercase">Add 16pc Bucket & Save Instantly</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section id="testimonials" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-offwhite">
+      <div class="max-w-7xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="text-crimson font-rubik font-bold tracking-wider uppercase text-xs sm:text-sm">SOUND ON!</span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-rubik font-black text-charcoal mt-2 tracking-tight">
+            Real Foodies. Real Reviews.
+          </h2>
+          <p class="text-gray-500 mt-4 leading-relaxed">
+            Don't just take our word for it. Here is what local food lovers across the Davao Region say about their crispy, golden Polangco experiences.
+          </p>
+        </div>
+
+        <!-- 3 Testimonial Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <!-- Card 1 -->
+          <div class="bg-white rounded-3xl p-8 border border-gray-100 transition-all-300 card-hover flex flex-col justify-between" id="testimonial-1">
+            <div>
+              <div class="flex items-center space-x-1 text-amber_gold text-xl" aria-label="5 out of 5 stars">
+                ★★★★★
+              </div>
+              <blockquote class="mt-6 text-gray-600 italic text-sm sm:text-base leading-relaxed">
+                "Best fried chicken I've had in my entire life. The crust is paper-thin and insanely crispy, not heavy or cakey, and the meat is literally dripping with juice. The gravy alone is worth the trip!"
+              </blockquote>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-50 flex items-center justify-between">
+              <div>
+                <cite class="block font-rubik font-bold text-charcoal not-italic">Janice M.</cite>
+                <span class="text-xs text-gray-400 mt-0.5 block tracking-wider uppercase font-medium">Tagum City</span>
+              </div>
+              <span class="text-2xl filter saturate-50">🍗</span>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-white rounded-3xl p-8 border border-gray-100 transition-all-300 card-hover flex flex-col justify-between" id="testimonial-2">
+            <div>
+              <div class="flex items-center space-x-1 text-amber_gold text-xl" aria-label="5 out of 5 stars">
+                ★★★★★
+              </div>
+              <blockquote class="mt-6 text-gray-600 italic text-sm sm:text-base leading-relaxed">
+                "Ordered for our family reunion — 3 family buckets. Everybody went back for seconds, even my notoriously picky grandparents! Delivery was right on time and arrived burning hot. Polangco never misses."
+              </blockquote>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-50 flex items-center justify-between">
+              <div>
+                <cite class="block font-rubik font-bold text-charcoal not-italic">Rodel B.</cite>
+                <span class="text-xs text-gray-400 mt-0.5 block tracking-wider uppercase font-medium">Davao City</span>
+              </div>
+              <span class="text-2xl filter saturate-50">👨‍👩‍👧‍👦</span>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="bg-white rounded-3xl p-8 border border-gray-100 transition-all-300 card-hover flex flex-col justify-between" id="testimonial-3">
+            <div>
+              <div class="flex items-center space-x-1 text-amber_gold text-xl" aria-label="5 out of 5 stars">
+                ★★★★★
+              </div>
+              <blockquote class="mt-6 text-gray-600 italic text-sm sm:text-base leading-relaxed">
+                "The spicy wings are dangerously addictive. Crisp skin, fiery deep-reaching marinade, cooled down with that rich blue cheese dip. I order at least twice a week now. Absolutely no regrets!"
+              </blockquote>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-50 flex items-center justify-between">
+              <div>
+                <cite class="block font-rubik font-bold text-charcoal not-italic">Lovely A.</cite>
+                <span class="text-xs text-gray-400 mt-0.5 block tracking-wider uppercase font-medium">Panabo</span>
+              </div>
+              <span class="text-2xl filter saturate-50">🌶️</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 8. LOCATIONS SECTION -->
+    <section id="locations" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white">
+      <div class="max-w-7xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="text-crimson font-rubik font-bold tracking-wider uppercase text-xs sm:text-sm">CONVENIENT DISPATCH</span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-rubik font-black text-charcoal mt-2 tracking-tight">
+            Find Your Nearest Branch
+          </h2>
+          <p class="text-gray-500 mt-4 leading-relaxed">
+            Stop by for the ultimate dine-in, steaming pressure-fryer experience, or pick up a feast on your way back home.
+          </p>
+        </div>
+
+        <!-- Two Branch Cards Side by Side -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+          
+          <!-- Branch 1: Tagum -->
+          <div class="bg-white rounded-3xl p-8 border border-gray-200 transition-all-300 shadow-sm hover:shadow-xl hover:border-crimson/20 flex flex-col justify-between group" id="location-card-1">
+            <div>
+              <div class="flex items-center space-x-3 mb-6">
+                <!-- Icon -->
+                <div class="w-12 h-12 rounded-xl bg-crimson/10 text-crimson flex items-center justify-center font-bold">
+                  <svg class="w-6 h-6 text-crimson group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  </svg>
+                </div>
+                <!-- Branch Title -->
+                <h3 class="text-2xl font-rubik font-bold text-charcoal">Tagum City Branch</h3>
+              </div>
+              
+              <!-- Details list -->
+              <div class="space-y-4 mb-8">
+                <!-- Location -->
+                <div class="flex items-start space-x-3 text-sm text-gray-600">
+                  <svg class="w-5 h-5 text-gray-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                  </svg>
+                  <span>Rizal St., Tagum City, Davao del Norte</span>
+                </div>
+                <!-- Hours -->
+                <div class="flex items-start space-x-3 text-sm text-gray-600">
+                  <svg class="w-5 h-5 text-gray-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span>Mon–Sun, 10:00 AM – 10:00 PM</span>
+                </div>
+                <!-- Phone -->
+                <div class="flex items-start space-x-3 text-sm text-gray-600">
+                  <svg class="w-5 h-5 text-gray-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                  </svg>
+                  <span class="hover:text-crimson font-medium cursor-pointer" onclick="window.location.href='tel:0845550101'">(084) 555-0101</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- CTA Button -->
+            <button onclick="showDirections('Tagum')" class="w-full bg-transparent hover:bg-crimson text-crimson hover:text-white border-2 border-crimson font-rubik font-bold py-3.5 px-6 rounded-xl transition-all duration-200 text-center flex items-center justify-center gap-2 group-hover:bg-crimson group-hover:text-white focus:outline-none focus:ring-2 focus:ring-crimson">
+              Get Directions →
+            </button>
+          </div>
+
+          <!-- Branch 2: Davao -->
+          <div class="bg-white rounded-3xl p-8 border border-gray-200 transition-all-300 shadow-sm hover:shadow-xl hover:border-crimson/20 flex flex-col justify-between group" id="location-card-2">
+            <div>
+              <div class="flex items-center space-x-3 mb-6">
+                <!-- Icon -->
+                <div class="w-12 h-12 rounded-xl bg-crimson/10 text-crimson flex items-center justify-center font-bold">
+                  <svg class="w-6 h-6 text-crimson group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  </svg>
+                </div>
+                <!-- Branch Title -->
+                <h3 class="text-2xl font-rubik font-bold text-charcoal">Davao City Branch</h3>
+              </div>
+              
+              <!-- Details list -->
+              <div class="space-y-4 mb-8">
+                <!-- Location -->
+                <div class="flex items-start space-x-3 text-sm text-gray-600">
+                  <svg class="w-5 h-5 text-gray-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                  </svg>
+                  <span>Pelayo St., Poblacion District, Davao City</span>
+                </div>
+                <!-- Hours -->
+                <div class="flex items-start space-x-3 text-sm text-gray-600">
+                  <svg class="w-5 h-5 text-gray-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span>Mon–Sun, 10:00 AM – 11:00 PM</span>
+                </div>
+                <!-- Phone -->
+                <div class="flex items-start space-x-3 text-sm text-gray-600">
+                  <svg class="w-5 h-5 text-gray-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                  </svg>
+                  <span class="hover:text-crimson font-medium cursor-pointer" onclick="window.location.href='tel:0825550202'">(082) 555-0202</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- CTA Button -->
+            <button onclick="showDirections('Davao')" class="w-full bg-transparent hover:bg-crimson text-crimson hover:text-white border-2 border-crimson font-rubik font-bold py-3.5 px-6 rounded-xl transition-all duration-200 text-center flex items-center justify-center gap-2 group-hover:bg-crimson group-hover:text-white focus:outline-none focus:ring-2 focus:ring-crimson">
+              Get Directions →
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 9. STICKY MOBILE ORDER BAR -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full z-30 bg-white border-t border-gray-100 flex items-center justify-between py-3 px-4 shadow-[0_-8px_20px_rgba(0,0,0,0.06)] animate-fade-in">
+      <div class="flex flex-col">
+        <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">CRISPY HUNGER?</span>
+        <span class="text-charcoal font-rubik font-black text-sm">Ready to order?</span>
+      </div>
+      <a href="#menu" class="bg-crimson hover:bg-black text-white font-rubik font-black text-sm tracking-wide px-5 py-2.5 rounded-full shadow-lg transition-all active:scale-95 duration-150 flex items-center gap-1.5 focus:outline-none">
+        Order Now 🍗
+      </a>
+    </div>
+
+
+    <!-- 10. FOOTER -->
+    <footer class="bg-darkcrimson text-white pt-16 pb-24 sm:pb-16 px-4 sm:px-6 lg:px-8 relative z-20 border-t-4 border-amber_gold">
+      
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:justify-between gap-12 pb-12 border-b border-white/15">
+        
+        <!-- Left Column: Logo & Copyright -->
+        <div class="max-w-md flex flex-col items-start">
+          <a href="#hero" class="flex items-center space-x-2 group focus:outline-none">
+            <span class="text-2xl sm:text-3xl font-rubik font-black tracking-tight text-white group-hover:text-amber_gold transition-all duration-200">
+              Polangco <span class="text-amber_gold group-hover:text-white transition-all duration-200">FC</span>
+            </span>
+          </a>
+          <p class="mt-4 text-xs sm:text-sm text-white/70 leading-relaxed font-light">
+            "Crispy outside, insanely juicy inside, seasoned to perfection." Davao's local home-grown fried chicken brand, setting premium standard benchmarks in hand-battering and pressure-frying.
+          </p>
+          <p class="mt-6 text-xs text-white/50">
+            &copy; 2025 Polangco Fried Chicken. All rights reserved.
+          </p>
+        </div>
+
+        <!-- Right Column: Navigation Links & Social Media -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-8">
+          <div>
+            <h4 class="font-rubik font-bold text-sm tracking-wider uppercase text-amber_gold">Explore</h4>
+            <ul class="mt-4 space-y-2 text-xs sm:text-sm text-white/80">
+              <li><a href="#menu" class="hover:text-amber_gold hover:underline underline-offset-4 decoration-amber_gold transition-colors duration-150">Menu Favorites</a></li>
+              <li><a href="#locations" class="hover:text-amber_gold hover:underline underline-offset-4 decoration-amber_gold transition-colors duration-150">Our Branches</a></li>
+              <li><a href="#about" class="hover:text-amber_gold hover:underline underline-offset-4 decoration-amber_gold transition-colors duration-150">Our Story</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-rubik font-bold text-sm tracking-wider uppercase text-amber_gold">Partner</h4>
+            <ul class="mt-4 space-y-2 text-xs sm:text-sm text-white/80">
+              <li><button onclick="openFranchiseModal()" class="hover:text-amber_gold hover:underline underline-offset-4 decoration-amber_gold text-left transition-colors duration-150">Franchise Portal</button></li>
+              <li><a href="#" class="hover:text-amber_gold hover:underline underline-offset-4 decoration-amber_gold transition-colors duration-150">Privacy Policy</a></li>
+              <li><a href="#" class="hover:text-amber_gold hover:underline underline-offset-4 decoration-amber_gold transition-colors duration-150">Terms of Use</a></li>
+            </ul>
+          </div>
+
+          <div class="col-span-2 sm:col-span-1">
+            <h4 class="font-rubik font-bold text-sm tracking-wider uppercase text-amber_gold">Stay Connected</h4>
+            <div class="mt-4 flex space-x-3">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white hover:text-crimson flex items-center justify-center text-xs text-white transition-all duration-150 font-rubik font-bold" aria-label="Facebook">FB</a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white hover:text-crimson flex items-center justify-center text-xs text-white transition-all duration-150 font-rubik font-bold" aria-label="Instagram">IG</a>
+              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white hover:text-crimson flex items-center justify-center text-xs text-white transition-all duration-150 font-rubik font-bold" aria-label="TikTok">TT</a>
+            </div>
+            <span class="text-[10px] text-white/40 block mt-4 tracking-wider uppercase font-medium">#CRISPYORNOTHING</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Bottom Bar -->
+      <div class="max-w-7xl mx-auto pt-6 text-center text-xs text-white/40 font-light flex flex-col sm:flex-row items-center sm:justify-between gap-3">
+        <span>Proudly serving Davao Region since 2019.</span>
+        <span>Crafted for exquisite poultry fans. 🇵🇭</span>
+      </div>
+    </footer>
+
+
+    <!-- ==============================================
+         INTERACTIVE COMPONENTS (MODALS, CARTS, TOASTS)
+         ============================================== -->
+
+    <!-- TOAST NOTIFICATION CONTAINER (Auto-dismisses in 2.5s) -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col space-y-3 pointer-events-none"></div>
+
+
+    <!-- FULLY INTERACTIVE LOCAL SHOPPING CART DRAWER -->
+    <div id="cart-drawer-overlay" class="fixed inset-0 z-50 bg-charcoal/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex justify-end" onclick="closeCartDrawer()">
+      <!-- Cart Drawer Element -->
+      <div id="cart-drawer" class="w-full max-w-sm sm:max-w-md h-full bg-white text-charcoal shadow-2xl flex flex-col justify-between translate-x-full transition-transform duration-300 ease-out p-6" onclick="event.stopPropagation()">
+        
+        <!-- Cart Header -->
+        <div class="flex items-center justify-between pb-4 border-b border-gray-100">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">🛒</span>
+            <h3 class="text-xl font-rubik font-bold text-charcoal">Your Crispy Order</h3>
+          </div>
+          <button onclick="closeCartDrawer()" class="p-1 px-3 text-gray-400 hover:text-charcoal bg-gray-50 hover:bg-gray-100 rounded-lg text-sm font-bold transition-colors">
+            Close ×
+          </button>
+        </div>
+
+        <!-- Cart Items List (Dynamically updated via JS) -->
+        <div id="cart-items-container" class="flex-1 overflow-y-auto py-4 space-y-4 pr-1">
+          <!-- Empty Cart state default -->
+          <div id="cart-empty-state" class="h-full flex flex-col items-center justify-center text-center p-6">
+            <span class="text-6xl filter grayscale">🍗</span>
+            <p class="font-rubik font-bold text-lg mt-4 text-charcoal">Your cart is flat empty!</p>
+            <p class="text-sm text-gray-400 max-w-xs mt-1">Add some sizzling Signature Buckets or Chicken Sandwiches to start your feast.</p>
+            <button onclick="closeCartDrawer()" class="mt-6 font-rubik font-bold text-crimson text-sm hover:underline">
+              Browse Sizzling Menu →
+            </button>
+          </div>
+        </div>
+
+        <!-- Cart Summary Footer -->
+        <div id="cart-footer" class="border-t border-gray-100 pt-4 space-y-4 opacity-0 pointer-events-none transition-opacity duration-200">
+          <div class="space-y-2 text-sm text-gray-600 sm:text-base">
+            <div class="flex items-center justify-between">
+              <span>Subtotal</span>
+              <span class="font-semibold text-charcoal" id="cart-subtotal">₱0</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>Delivery Fee</span>
+              <span class="text-green-600 font-medium">FREE</span>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-gray-50 text-base sm:text-lg">
+              <span class="font-rubik font-bold text-charcoal">Total Amount</span>
+              <span class="font-rubik font-black text-crimson" id="cart-total">₱0</span>
+            </div>
+          </div>
+          
+          <!-- Checkout CTA -->
+          <button onclick="triggerCheckout()" class="w-full bg-crimson hover:bg-black text-white font-rubik font-black text-sm sm:text-base py-4 rounded-full transition-all duration-200 shadow-lg shadow-crimson/15 flex items-center justify-center gap-2">
+            Confirm Checkout & Fry My Chicken! 🍗🔥
+          </button>
+          <span class="block text-center text-[10px] text-gray-400 uppercase tracking-widest leading-none mt-1">Guaranteed Crisp 30-Min Delivery</span>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- INTERACTIVE DIRECTION MODAL -->
+    <div id="directions-modal-overlay" class="fixed inset-0 z-50 bg-charcoal/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4" onclick="closeDirectionsModal()">
+      <div id="directions-modal" class="w-full max-w-md bg-white rounded-3xl overflow-hidden shadow-2xl translate-y-8 duration-300 transition-transform p-6 relative" onclick="event.stopPropagation()">
+        <!-- Close button -->
+        <button onclick="closeDirectionsModal()" class="absolute top-4 right-4 p-1 px-3 text-gray-400 hover:text-charcoal bg-gray-50 hover:bg-gray-100 rounded-lg text-sm font-bold transition-colors">
+          Close ×
+        </button>
+        
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-crimson/10 text-crimson flex items-center justify-center">
+            <svg class="w-5 h-5 text-crimson" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-rubik font-bold text-charcoal" id="direction-branch-name">Tagum City</h3>
+        </div>
+
+        <!-- Simulated Map Box -->
+        <div class="w-full h-44 rounded-2xl bg-slate-50 border border-gray-100 mb-6 flex flex-col items-center justify-center relative overflow-hidden p-4 text-center">
+          <!-- Abstract grid lines simulating Map visual matching -->
+          <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(#C41E3A 1.5px, transparent 1.5px), radial-gradient(#FFBF00 1.5px, transparent 1.5px); background-size: 24px 24px;"></div>
+          <!-- Pin -->
+          <span class="text-4xl filter drop-shadow-md relative z-10 animate-bounce">📍</span>
+          <span class="mt-2 text-xs relative z-10 text-gray-400 tracking-wider uppercase font-bold" id="direction-summary-title">Tagum City coordinates grid</span>
+          <span class="mt-1 text-sm relative z-10 text-charcoal font-semibold border-b decoration-amber_gold" id="direction-summary-desc">Rizal St., Tagum City</span>
+        </div>
+
+        <!-- Navigation routes detailed directions -->
+        <div class="space-y-4 mb-6">
+          <h4 class="font-rubik font-bold text-xs text-crimson tracking-wider uppercase">DRIVING NAVIGATION INSTRUCTIONS</h4>
+          
+          <div class="flex items-start space-x-3 text-sm text-gray-600">
+            <span class="w-5 h-5 rounded-full bg-amber_gold/15 text-crimson flex items-center justify-center text-xs font-rubik font-bold shrink-0 mt-0.5">1</span>
+            <p id="route-step-1">Follow National Highway and turn east onto Rizal St. directly at the intersection.</p>
+          </div>
+          <div class="flex items-start space-x-3 text-sm text-gray-600">
+            <span class="w-5 h-5 rounded-full bg-amber_gold/15 text-crimson flex items-center justify-center text-xs font-rubik font-bold shrink-0 mt-0.5">2</span>
+            <p id="route-step-2">Drive past Rizal Park for 300 meters; our branch is on the left next to Tagum Landmark.</p>
+          </div>
+          <div class="flex items-start space-x-3 text-sm text-gray-600">
+            <span class="w-5 h-5 rounded-full bg-amber_gold/15 text-crimson flex items-center justify-center text-xs font-rubik font-bold shrink-0 mt-0.5">3</span>
+            <p>Look for the huge red neon "Polangco Fried Chicken" bucket sign. Dedicated street parking is available.</p>
+          </div>
+        </div>
+
+        <a id="external-maps-btn" href="#" target="_blank" rel="noopener noreferrer" class="w-full bg-crimson hover:bg-black text-white font-rubik font-bold py-3.5 px-4 rounded-xl text-center transition-colors block text-sm shadow-md">
+          Open in Google Maps Mobile UI 🗺️
+        </a>
+      </div>
+    </div>
+
+
+    <!-- INTERACTIVE FRANCHISE MODAL -->
+    <div id="franchise-modal-overlay" class="fixed inset-0 z-50 bg-charcoal/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4 overflow-y-auto" onclick="closeFranchiseModal()">
+      <div id="franchise-modal" class="w-full max-w-xl bg-white rounded-3xl overflow-hidden shadow-2xl translate-y-8 duration-300 transition-transform relative p-6 sm:p-8" onclick="event.stopPropagation()">
+        <!-- Close button -->
+        <button onclick="closeFranchiseModal()" class="absolute top-4 right-4 p-1 px-3 text-gray-400 hover:text-charcoal bg-gray-50 hover:bg-gray-100 rounded-lg text-sm font-bold transition-colors">
+          Close ×
+        </button>
+
+        <div class="flex flex-col mb-6">
+          <span class="text-crimson font-rubik font-bold tracking-wider uppercase text-xs">JOIN THE FRANCHISE COALITION</span>
+          <h3 class="text-2xl sm:text-3xl font-rubik font-black text-charcoal mt-1 tracking-tight">Expand Davao Region's Legend</h3>
+          <p class="text-sm text-gray-400 font-light mt-1">Our golden franchise blueprint allows prospective business partners to secure healthy, high-converting operations.</p>
+        </div>
+
+        <!-- Simulated Franchise Inquiry Form -->
+        <form id="franchise-form" onsubmit="submitFranchiseForm(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Name -->
+            <div class="flex flex-col">
+              <label for="fname" class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Full Name</label>
+              <input type="text" id="fname" required placeholder="Partner name" class="w-full px-4 py-3 rounded-xl border border-gray-100 focus:outline-none focus:border-crimson text-sm bg-slate-50 shadow-inner">
+            </div>
+            <!-- Email -->
+            <div class="flex flex-col">
+              <label for="femail" class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Email address</label>
+              <input type="email" id="femail" required placeholder="partner@gmail.com" class="w-full px-4 py-3 rounded-xl border border-gray-100 focus:outline-none focus:border-crimson text-sm bg-slate-50 shadow-inner">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Phone -->
+            <div class="flex flex-col">
+              <label for="fphone" class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Phone Number</label>
+              <input type="tel" id="fphone" required placeholder="e.g. 0917 123 4567" class="w-full px-4 py-3 rounded-xl border border-gray-100 focus:outline-none focus:border-crimson text-sm bg-slate-50 shadow-inner">
+            </div>
+            <!-- Location Target -->
+            <div class="flex flex-col">
+              <label for="flocation" class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Franchise Target Area</label>
+              <select id="flocation" required class="w-full px-4 py-3 rounded-xl border border-gray-100 focus:outline-none focus:border-crimson text-sm bg-slate-50 shadow-inner">
+                <option value="">Select target municipality</option>
+                <option value="Tagum">Tagum City, Davao del Norte</option>
+                <option value="Davao">Davao City (Poblacion/Buhangin)</option>
+                <option value="Panabo">Panabo City, Davao del Norte</option>
+                <option value="Digos">Digos City, Davao del Sur</option>
+                <option value="Mati">Mati City, Davao Oriental</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Message details -->
+          <div class="flex flex-col">
+            <label for="fmsg" class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Inquiry proposal description</label>
+            <textarea id="fmsg" required rows="3" placeholder="Tell us about yourself / proposed commercial leasing area..." class="w-full px-4 py-3 rounded-xl border border-gray-100 focus:outline-none focus:border-crimson text-sm bg-slate-50 shadow-inner resize-none"></textarea>
+          </div>
+
+          <!-- Submit payload -->
+          <div class="pt-4">
+            <button type="submit" class="w-full bg-crimson hover:bg-black text-white font-rubik font-black text-sm uppercase px-6 py-4 rounded-xl transition-all shadow-md">
+              Send Franchise Portfolio Query 📩
+            </button>
+          </div>
+        </form>
+
+        <!-- Form Success State element (hidden default) -->
+        <div id="franchise-success-state" class="hidden text-center py-8">
+          <span class="text-6xl text-amber_gold filter animate-bounce duration-1000 inline-block mb-4">🏆✨</span>
+          <h4 class="font-rubik font-black text-xl text-charcoal">Proposal Packet Dispatched!</h4>
+          <p class="text-gray-500 text-sm mt-2 max-w-sm mx-auto">
+            Thank you, <strong id="success-user-name" class="text-charcoal font-semibold"></strong>. Our Franchise Investment Relations director is packaging your proposal right now. You will receive an operational breakdown outline email within 24 working hours.
+          </p>
+          <button onclick="closeFranchiseModal(); resetFranchiseForm();" class="mt-6 bg-crimson hover:bg-black text-white font-rubik font-bold text-xs px-5 py-2.5 rounded-lg transition-colors">
+            Return to Store View
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ==============================================
+         JAVASCRIPT ACTIONS & STATE MANAGEMENT
+         ============================================== -->
+    <script>
+      // 1. CAROUSEL & MARQUEE INITIALIZATION
+      // Generate bubbles simulation programmatically inside hero section
+      document.addEventListener('DOMContentLoaded', () => {
+        const bubbleContainer = document.getElementById('bubbles-container');
+        if (bubbleContainer) {
+          for (let i = 0; i < 24; i++) {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            const size = Math.random() * 20 + 8;
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = `${Math.random() * 100}%`;
+            bubble.style.animationDelay = `${Math.random() * 8}s`;
+            bubble.style.animationDuration = `${Math.random() * 6 + 6}s`;
+            bubbleContainer.appendChild(bubble);
+          }
+        }
+        
+        // Populate and reconstruct local cart items
+        renderCartUI();
+      });
+
+      // 2. NAV SCROLL ACTIONS & TOGGING COLOR THEMES
+      window.addEventListener('scroll', () => {
+        const navbar = document.getElementById('navbar');
+        const logo = document.getElementById('nav-logo');
+        const logoText = logo.firstElementChild;
+        
+        if (window.scrollY > 80) {
+          // Scrolled past 80 pixels - solidify header
+          navbar.classList.remove('bg-transparent', 'text-white', 'py-4');
+          navbar.classList.add('bg-crimson', 'shadow-2xl', 'text-white', 'py-3', 'border-b-2', 'border-amber_gold');
+        } else {
+          // Return to top
+          navbar.classList.remove('bg-crimson', 'shadow-2xl', 'py-3', 'border-b-2', 'border-amber_gold');
+          navbar.classList.add('bg-transparent', 'text-white', 'py-4');
+        }
+      });
+
+      // 3. MOBILE MENU SLIDE DRAWER
+      let isMobileMenuOpen = false;
+      function toggleMobileMenu() {
+        const drawer = document.getElementById('mobile-drawer');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+        const closeIcon = document.getElementById('close-icon');
+        
+        isMobileMenuOpen = !isMobileMenuOpen;
+        if (isMobileMenuOpen) {
+          drawer.classList.remove('-translate-y-full');
+          hamburgerIcon.classList.add('hidden');
+          closeIcon.classList.remove('hidden');
+        } else {
+          drawer.classList.add('-translate-y-full');
+          hamburgerIcon.classList.remove('hidden');
+          closeIcon.classList.add('hidden');
+        }
+      }
+
+      // 4. ORDER CART GENERAL STATE ENGINE & DRAWER INTERNALS
+      // We leverage the standard LocalStorage parameters to retain cart configs across states
+      let cart = JSON.parse(localStorage.getItem('polangco_cart')) || [];
+
+      function toggleCartDrawer() {
+        const overlay = document.getElementById('cart-drawer-overlay');
+        const drawer = document.getElementById('cart-drawer');
+        overlay.classList.toggle('opacity-0');
+        overlay.classList.toggle('pointer-events-none');
+        drawer.classList.toggle('translate-x-full');
+      }
+
+      function closeCartDrawer() {
+        const overlay = document.getElementById('cart-drawer-overlay');
+        const drawer = document.getElementById('cart-drawer');
+        overlay.classList.add('opacity-0');
+        overlay.classList.add('pointer-events-none');
+        drawer.classList.add('translate-x-full');
+      }
+
+      // Add Item to Order State
+      function addToCart(itemName, itemPrice, emoji) {
+        const existingData = cart.find(item => item.name === itemName);
+        if (existingData) {
+          existingData.qty += 1;
+        } else {
+          cart.push({
+            name: itemName,
+            price: itemPrice,
+            emoji: emoji,
+            qty: 1
+          });
+        }
+        
+        saveAndSyncCart();
+        showToast(`Added ${itemName} to your order! 🛒`);
+      }
+
+      // Quantity adjustments
+      function adjustQty(itemName, val) {
+        const index = cart.findIndex(item => item.name === itemName);
+        if (index !== -1) {
+          cart[index].qty += val;
+          if (cart[index].qty <= 0) {
+            cart.splice(index, 1);
+          }
+        }
+        saveAndSyncCart();
+      }
+
+      // Fast Order Upsell upgrade
+      function applyUpsell() {
+        addToCart('Family Feast Bucket (16pc)', 899, '🧺');
+        toggleCartDrawer();
+      }
+
+      function saveAndSyncCart() {
+        localStorage.setItem('polangco_cart', JSON.stringify(cart));
+        renderCartUI();
+      }
+
+      // Reconstruct DOM for Cart UI
+      function renderCartUI() {
+        const container = document.getElementById('cart-items-container');
+        const emptyState = document.getElementById('cart-empty-state');
+        const footer = document.getElementById('cart-footer');
+        const desktopBadge = document.getElementById('cart-badge');
+        const mobileBadge = document.getElementById('cart-badge-mobile');
+        
+        // Calculate totals
+        let totalItemsCount = 0;
+        let subtotalAmount = 0;
+        
+        // Build items HTML
+        let itemsHtml = '';
+        
+        if (cart.length > 0) {
+          cart.forEach(item => {
+            totalItemsCount += item.qty;
+            subtotalAmount += (item.qty * item.price);
+            
+            itemsHtml += `
+              <div class="flex items-center justify-between gap-3 bg-slate-50 rounded-2xl p-4 border border-gray-100 flex-nowrap animate-fade-in transition-all">
+                <div class="flex items-center space-x-3">
+                  <div class="text-3xl shrink-0">${item.emoji}</div>
+                  <div>
+                    <h5 class="font-rubik font-bold text-sm text-charcoal max-w-[150px] sm:max-w-[200px] leading-tight">${item.name}</h5>
+                    <span class="text-xs text-crimson font-light tracking-wide mt-1 block">₱${item.price} each</span>
+                  </div>
+                </div>
+                
+                <div class="flex items-center space-x-2">
+                  <button onclick="adjustQty('${item.name}', -1)" class="w-7 h-7 bg-white text-gray-400 hover:text-crimson hover:bg-red-50 text-sm font-semibold rounded-lg flex items-center justify-center border border-gray-100 transition-colors" aria-label="Decrease amount">-</button>
+                  <span class="text-sm font-rubik font-bold text-slate-800 text-center w-5 select-none">${item.qty}</span>
+                  <button onclick="adjustQty('${item.name}', 1)" class="w-7 h-7 bg-white text-gray-400 hover:text-crimson hover:bg-red-50 text-sm font-semibold rounded-lg flex items-center justify-center border border-gray-100 transition-colors" aria-label="Increase amount">+</button>
+                </div>
+              </div>
+            `;
+          });
+          
+          container.innerHTML = itemsHtml;
+          emptyState.classList.add('hidden');
+          footer.classList.remove('opacity-0', 'pointer-events-none');
+        } else {
+          // Empty state
+          container.innerHTML = '';
+          emptyState.classList.remove('hidden');
+          container.appendChild(emptyState);
+          footer.classList.add('opacity-0', 'pointer-events-none');
+        }
+        
+        // Badges update
+        if (totalItemsCount > 0) {
+          desktopBadge.innerText = totalItemsCount;
+          desktopBadge.classList.replace('opacity-0', 'opacity-100');
+          desktopBadge.classList.replace('scale-75', 'scale-100');
+          
+          mobileBadge.innerText = totalItemsCount;
+          mobileBadge.classList.replace('opacity-0', 'opacity-100');
+          mobileBadge.classList.replace('scale-75', 'scale-100');
+        } else {
+          desktopBadge.classList.replace('opacity-100', 'opacity-0');
+          desktopBadge.classList.replace('scale-100', 'scale-75');
+          
+          mobileBadge.classList.replace('opacity-100', 'opacity-0');
+          mobileBadge.classList.replace('scale-100', 'scale-75');
+        }
+        
+        // Calculations write
+        document.getElementById('cart-subtotal').innerText = `₱${subtotalAmount}`;
+        document.getElementById('cart-total').innerText = `₱${subtotalAmount}`;
+      }
+
+      // Order submission
+      function triggerCheckout() {
+        if (cart.length === 0) return;
+        
+        // Simulated Grand checkout notification and reset
+        const total = document.getElementById('cart-total').innerText;
+        cart = [];
+        saveAndSyncCart();
+        closeCartDrawer();
+        
+        // Open celebratory grand notification popup
+        const checkoutSuccessOverlay = document.createElement('div');
+        checkoutSuccessOverlay.className = 'fixed inset-0 z-[100] bg-charcoal/70 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in';
+        checkoutSuccessOverlay.onclick = () => checkoutSuccessOverlay.remove();
+        checkoutSuccessOverlay.innerHTML = `
+          <div class="bg-white rounded-3xl p-6 sm:p-10 text-center max-w-md w-full shadow-2xl relative" onclick="event.stopPropagation()">
+            <!-- Sparkles -->
+            <span class="text-7xl block animate-bounce filter drop-shadow-md">🍗🔥🔔</span>
+            <h4 class="font-rubik font-black text-2xl sm:text-3xl text-crimson mt-6">Order Deep Frying Now!</h4>
+            <p class="text-gray-500 mt-2 text-sm leading-relaxed">
+              Your epic chicken feast of totaling <strong class="text-charcoal font-bold">${total}</strong> is authenticated! Hand-battering is starting immediately at your nearest location.
+            </p>
+            <div class="bg-slate-50 border border-gray-100 rounded-2xl p-4 mt-6 text-xs text-left space-y-2">
+              <div class="flex items-center justify-between text-charcoal font-medium">
+                <span>Estimated Wait Time:</span>
+                <span class="text-crimson font-bold">22 - 28 Minutes</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>Branch Location Dispatch:</span>
+                <strong class="text-slate-800 font-semibold text-[10px] tracking-wider uppercase">Nearest Center Node</strong>
+              </div>
+              <div class="flex items-center justify-between pb-1">
+                <span>Free Insulated Wrap Status:</span>
+                <span class="text-green-600 font-semibold uppercase">ACTIVE</span>
+              </div>
+            </div>
+            <button onclick="this.closest('.fixed').remove()" class="mt-8 bg-amber_gold hover:bg-crimson hover:text-white text-charcoal font-rubik font-black py-3.5 px-6 rounded-full transition-all duration-200 w-full text-sm block">
+              AWESOME, CANNOT WAIT!
+            </button>
+          </div>
+        `;
+        document.body.appendChild(checkoutSuccessOverlay);
+      }
+
+
+      // 5. TOAST SLIDING IN-AND-OUT NOTIFICATIONS
+      function showToast(message) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        // Elegant visual layout with amber-left border
+        toast.className = 'bg-charcoal text-white pointer-events-auto px-5 py-4.5 rounded-2xl border-l-4 border-amber_gold shadow-xl flex items-center space-x-3 w-80 text-sm font-medium transform translate-y-4 opacity-0 transition-all duration-300 ease-out';
+        toast.innerHTML = `
+          <div class="text-amber_gold text-xl">🍗</div>
+          <div class="flex-1">${message}</div>
+          <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-white text-xs align-middle">✕</button>
+        `;
+        
+        container.appendChild(toast);
+        
+        // Trigger entrance frame
+        setTimeout(() => {
+          toast.classList.remove('translate-y-4', 'opacity-0');
+        }, 10);
+        
+        // Dismiss sequence
+        setTimeout(() => {
+          toast.classList.add('translate-y-4', 'opacity-0');
+          setTimeout(() => {
+            toast.remove();
+          }, 300);
+        }, 2500);
+      }
+
+      // 6. MAP DIRECTIONS MODAL MANAGEMENT
+      function showDirections(branch) {
+        const overlay = document.getElementById('directions-modal-overlay');
+        const modal = document.getElementById('directions-modal');
+        const title = document.getElementById('direction-branch-name');
+        const mapsBtn = document.getElementById('external-maps-btn');
+        const step1 = document.getElementById('route-step-1');
+        const step2 = document.getElementById('route-step-2');
+        const desc = document.getElementById('direction-summary-desc');
+        
+        if (branch === 'Tagum') {
+          title.innerText = "Tagum City Branch";
+          step1.innerText = "Follow National Highway and turn east onto Rizal St. directly at the main intersection.";
+          step2.innerText = "Drive past Rizal Park for 300 meters; our branch is on the left side next to the Tagum Landmark Complex.";
+          desc.innerText = "Rizal St., Tagum City, Davao del Norte";
+          mapsBtn.href = "https://maps.google.com/?q=Rizal+St,+Tagum+City";
+        } else {
+          title.innerText = "Davao City Branch";
+          step1.innerText = "Navigate towards Poblacion District via Quirino Ave. and turn left onto Pelayo St.";
+          step2.innerText = "Find us right next to the municipal offices; dedicated commercial customer arrival bays are open.";
+          desc.innerText = "Pelayo St., Poblacion District, Davao City";
+          mapsBtn.href = "https://maps.google.com/?q=Pelayo+St,+Davao+City";
+        }
+        
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.remove('translate-y-8');
+      }
+
+      function closeDirectionsModal() {
+        const overlay = document.getElementById('directions-modal-overlay');
+        const modal = document.getElementById('directions-modal');
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+        modal.classList.add('translate-y-8');
+      }
+
+
+      // 7. FRANCHISE APPLICATION MODAL INTERNALS
+      function openFranchiseModal() {
+        const overlay = document.getElementById('franchise-modal-overlay');
+        const modal = document.getElementById('franchise-modal');
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.remove('translate-y-8');
+      }
+
+      function closeFranchiseModal() {
+        const overlay = document.getElementById('franchise-modal-overlay');
+        const modal = document.getElementById('franchise-modal');
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+        modal.classList.add('translate-y-8');
+      }
+
+      function submitFranchiseForm(e) {
+        e.preventDefault();
+        
+        const form = document.getElementById('franchise-form');
+        const successState = document.getElementById('franchise-success-state');
+        const inputName = document.getElementById('fname').value;
+        const successNameField = document.getElementById('success-user-name');
+        
+        // Transition form out & success state in
+        form.classList.add('hidden');
+        successState.classList.remove('hidden');
+        successNameField.innerText = inputName;
+      }
+
+      function resetFranchiseForm() {
+        const form = document.getElementById('franchise-form');
+        const successState = document.getElementById('franchise-success-state');
+        form.classList.remove('hidden');
+        successState.classList.add('hidden');
+        form.reset();
+      }
+    </script>
+  </body>
+</html>

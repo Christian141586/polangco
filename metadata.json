@@ -1,0 +1,6 @@
+{
+  "name": "Polangco Fried Chicken",
+  "description": "High-converting, fully responsive website for Polangco Fried Chicken - hand-battered, pressure-fried, crispiness to perfection.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
